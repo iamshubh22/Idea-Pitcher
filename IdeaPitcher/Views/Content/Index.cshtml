@@ -1,0 +1,69 @@
+﻿@using IdeaPitcher.DAL.Data;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<IdeaPitcherUser> UserManager;
+@{
+    ViewData["Title"] = "Content Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model ContentModel
+<body>
+    <br>
+<h1>Content</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Image" class="control-label"></label>
+        <input asp-for="Image" class="form-control" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+
+
+
+
+
+    <div class="ml-2 col-sm-6"><img src="https://placehold.it/80x80" height="200" width="200" id="preview" class="img-thumbnail"></div>
+
+
+    <div>
+        <label asp-for="Idea" class="control-label"></label>
+        <textarea asp-for="Idea" class="form-control" id="exampleFormControlTextarea1"> </textarea>
+        <span asp-validation-for="Idea" class="tex-danger"></span>
+    </div>
+    <style>
+        .hide-element {
+            display: none;
+        }
+    </style>
+    <div id="MyDiv">
+        <input asp-for="createdby" value="@UserManager.GetUserName(User)" />
+    </div>
+    <script>var div = document.getElementById("MyDiv"); div.classList.add("hide-element");</script>
+
+    <br/>
+    <button type="submit" class="btn btn-primary" asp-controller="Content" asp-action="Index">Publish</button>
+    <button type="submit" class="btn btn-primary" asp-controller="Content" asp-action="Draft">Draft </button>
+    
+
+</form>
+   
+</body>
+@section Scripts {
+    
+    <partial name="_ValidationScriptsPartial" />
+    @*<script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>*@
+}

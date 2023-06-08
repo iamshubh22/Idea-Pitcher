@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Super";
+}
+
+<br>
+<div>
+    <h3 class="hello">Team Mapping</h3>
+    <a asp-controller="TeamMapping" asp-action="Team_Mapping"><button type="button" class="btn btn-outline-primary" style="width: 20%;">Team Mapping</button></a>
+</div>
+<br />
+<div>
+    <h3> 2 Factor Autorization</h3>
+
+    <a asp-controller="FactorAuth" asp-action="FactorAuth"><button type="button" class=" btn btn-outline-primary" style="width: 20%;">2FA</button></a>
+</div>
+<br />
+
+<div>
+    <h3>Enable/Disable</h3>
+    <a asp-controller="EnableDisableUser" asp-action="Enable_Disable_User"><button type="button" class="btn btn-outline-primary" style="width: 20%;">Enable/disable users</button></a>
+</div>
+<br />
+
+<div>
+    <h3>Change Owner</h3>
+    <a asp-controller="ChangeIdea" asp-action="Change_Idea_User"><button type="button" class=" btn btn-outline-primary" style="width: 20%;">Change owner</button></a>
+</div>

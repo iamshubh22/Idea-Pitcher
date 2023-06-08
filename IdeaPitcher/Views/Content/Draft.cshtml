@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ContentModel>
+@{
+    ViewData["Title"] = "Draft";
+}
+<br>
+@if(Model!=null){
+@foreach (var obj in Model)
+{
+    <form method="post">
+        
+        @if(@obj.Drafted == true && User.Identity.Name==@obj.createdby){
+             <div class="card mb-3">
+              <center>
+                        <u><h2 class="card-title">@obj.Title</h2></u>
+            <img class="img-thumbnail" src="~/Ideas/Images/@obj.IdeaImage" alt="Card image cap" height="500" width="500">
+              </center>
+            <div class="card-body">
+                        @if (User.Identity.Name == obj.createdby)
+                        {
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    @*<button class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">*@
+                                    @*<i class="bi bi-three-dots"></i>*@
+                                    @*</button>*@
+                                    @*<div class="dropdown-menu">*@
+                                    <form method="post">
+                                        <button type="submit" class="dropdown-item" asp-controller="Home" asp-action="DeletePost" asp-route-id="@obj.PostId"><i class="bi-trash"> Delete</i></button>
+                                        
+                                        <br>
+                                    </form>
+                                </div>
+                                @*</div>*@
+                            </div>
+
+                        }
+                <p class="card-text">@obj.Idea</p>
+                <p class="card-text"><small class="text-muted">@obj.CreatedOn</small></p>
+                <p class="card-text"><small class="text-muted">@obj.createdby</small></p>
+                <a asp-controller="Content" asp-action="publishDrafted" asp-route-Id="@obj.PostId"> <i class="bi bi-pencil-square"></i>Publish</a>
+            </div>
+        </div>
+        }
+       
+
+    </form>
+}
+}
+@*else{
+    <h5>No Drafts saved</h5>
+
+}*@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+    h5{
+        text-align:center;
+    }
+</style>

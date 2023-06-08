@@ -1,0 +1,64 @@
+﻿@using IdeaPitcher.Constants;
+@using IdeaPitcher.DAL.Data;
+@using IdeaPitcher.DAL.Models;
+@model IEnumerable<IdeaPitcherUser>
+@{
+    ViewData["Title"] = "Team_Mapping";
+}
+<br>
+<h1>Team Mapping</h1>
+
+<form method="post" asp-controller="TeamMapping" asp-action="Team_Mapping">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Users</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Team</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var user = Model.ElementAt(i);
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                        <label asp-for="@user.IsLeader">Role:</label>
+                        <select name="UserList[@i].IsLeader" asp-for="@user.IsLeader" class="form-control">
+                            <option value="">-- Select a Role --</option>
+                            <option value="True">Leader</option>
+                            <option value="False">Basic</option>
+                        </select>
+
+                        <input type="hidden" name="UserList[@i].IsLeader" value="@user.IsLeader" />
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                            <label asp-for="@user.TeamId">Team:</label>
+                            @*@if (user.IsLeader)
+                        {
+                        int leaderTeamId = user.TeamId;
+                        <select name="UserList[@i].TeamId" asp-route-Id="" asp-for="@user.TeamId" asp-items="@user.UserSelectList" class="form-control" disabled>
+                        <option value="@leaderTeamId" selected>Leader</option>
+                        </select>
+                        <input type="hidden" name="UserList[@i].TeamId" value="@leaderTeamId" />
+                        }*@
+                            @* else
+                        {*@
+                            <select name="UserList[@i].TeamId" asp-for="@user.TeamId" asp-items="@user.UserSelectList" class="form-control">
+                                <option value="">-- Select a team --</option>
+                            </select>
+                            <input type="hidden" name="UserList[@i].TeamId" value="@user.TeamId" />
+                            @*}*@
+                            <input type="hidden" name="UserList[@i].Id" value="@user.Id" />
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

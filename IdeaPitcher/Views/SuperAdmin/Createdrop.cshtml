@@ -1,0 +1,29 @@
+﻿@using IdeaPitcher.DAL.Data;
+@using IdeaPitcher.DAL.Models;
+@model TeamModel;
+@{
+    ViewData["Title"] = "CreateTeam";
+}
+<br>
+<h1>CreateTeam</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name">Team Name:</label>
+        <input asp-for="Name"  type="text" class="form-control" id="TeamName" name="Name"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Team Description:</label>
+        <input asp-for="Description" type="text" class="form-control" id="TeamDescription" name="Description" value="@Model.Description" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TeamLeaderId">Team Leader:</label>
+        <select asp-for="TeamLeaderId" asp-items="@Model.UserSelectList" class="form-control">
+            <option value="">-- Select a team leader --</option>
+        </select>
+    </div>
+
+    <button asp-controller="SuperAdmin" asp-action="CreateTeam" type="submit" class="btn btn-primary">Create</button>
+</form>

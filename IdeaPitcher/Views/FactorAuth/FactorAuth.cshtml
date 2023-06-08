@@ -1,0 +1,30 @@
+﻿@using IdeaPitcher.DAL.Data;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@{
+    ViewData["Title"] = "FactorAuth";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject UserManager<IdeaPitcherUser> UserManager;
+@model IEnumerable<IdeaPitcherUser>
+<div class="text-center">
+</div>
+
+
+
+@foreach (var obj in Model)
+{
+    <form method="post">
+        <div class="card mb-3">
+        
+        <div class="card-body">
+            <h3 class="card-title">@obj.UserName</h3>
+            <p class="card-text">@obj.Name</p>
+            
+            <a class="btn-btn-sm btn-warning" asp-controller="FactorAuth" asp-action="Change_FactorAuth" asp-route-Id="@obj.Id"> Edit</a>
+
+        </div>
+      </div>
+      </form>
+    
+}

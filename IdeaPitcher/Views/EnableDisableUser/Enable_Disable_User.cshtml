@@ -1,0 +1,32 @@
+﻿@using IdeaPitcher.DAL.Data;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@{
+    ViewData["Title"] = "Enable_Disable_User";
+}
+
+<h1>Enable_Disable_User</h1>
+
+@inject UserManager<IdeaPitcherUser> UserManager;
+@model IEnumerable<IdeaPitcherUser>
+<div class="text-center">
+</div>
+
+
+
+@foreach (var obj in Model)
+{
+    <form method="post">
+        <div class="card mb-3">
+
+            <div class="card-body">
+                <h3 class="card-title">@obj.UserName</h3>
+                <p class="card-text">@obj.Name</p>
+
+                <a class="btn-btn-sm btn-warning" asp-controller="EnableDisableUser" asp-action="Disable" asp-route-Id="@obj.Id"> Disable</a>
+                <a class="btn-btn-sm btn-warning" asp-controller="EnableDisableUser" asp-action="Enable" asp-route-Id="@obj.Id"> Enable</a>
+            </div>
+        </div>
+    </form>
+
+}

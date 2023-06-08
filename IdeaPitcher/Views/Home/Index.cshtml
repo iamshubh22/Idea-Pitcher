@@ -1,0 +1,125 @@
+﻿@using IdeaPitcher.Constants;
+@using IdeaPitcher.DAL.Data;
+@using IdeaPitcher.DAL.Models;
+@using IdeaPitcher.Service.Interface;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<IdeaPitcherUser> UserManager;
+@inject IAuthorizationService AuthorizationService
+@using System.Web;
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<ContentModel>
+
+<div class="text-center">
+</div>
+
+@inject ICommentService commentservice
+<br />
+@foreach (var obj in Model)
+{
+    <div class="card mb-3">
+        <center>
+            <u><h2 class="card-title">@obj.Title</h2></u>
+        <img class="img-thumbnail" src="~/Ideas/Images/@obj.IdeaImage" alt="Card image cap" height="500" width="500">
+        </center>
+        <div class="card-body">
+            @if (User.Identity.Name == obj.createdby)
+            {
+                <div class="d-flex">
+                    <div class="ms-auto">
+                        @*<button class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">*@
+                        @*<i class="bi bi-three-dots"></i>*@
+                        @*</button>*@
+                        @*<div class="dropdown-menu">*@
+                        <form method="post">
+                            <button type="submit" class="dropdown-item" asp-controller="Home" asp-action="DeletePost" asp-route-id="@obj.PostId"><i class="bi-trash"> Delete</i></button>
+                            
+                            <br>
+                        </form>
+                    </div>
+                    @*</div>*@
+                </div>
+
+            }
+            
+            <p class="card-text">@obj.Idea</p>
+            <p class="card-text"><small class="text-muted">@obj.CreatedOn</small></p>
+            <p class="card-text"><small class="text-muted">@obj.createdby</small></p>
+
+
+        </div>
+    </div>
+    var Comment = commentservice.GetComments(obj.PostId);
+
+    <p>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#comment-@obj.PostId" role="button" aria-expanded="false" aria-controls="comment-@obj.PostId">
+            Comment
+        </a>
+
+
+
+        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.AccessIdea.PromoteIdea)).Result.Succeeded)
+        {
+            @if (obj.isVisible == false)
+            {
+                <form method="post">
+                    <button class="btn btn-primary" type="submit" asp-controller="Home" asp-action="Promote" asp-route-id="@obj.PostId"> Promote Idea</button>
+                </form>
+            }
+        }
+
+    </p>
+    <form method="post" enctype="multipart/form-data">
+        <div class="collapse" id="comment-@obj.PostId">
+            <a data-bs-toggle="collapse" aria-controls="comment-@obj.PostId">
+                @(Comment != null ? Comment.Count() : 0) Comments
+            </a>
+            <div class="card card-body">
+
+                @if (Comment != null)
+                {
+                    @foreach (var comment in Comment)
+                    {
+                        <div>
+                            <p><h4><b>@comment.Author:</b></h4> <i>@comment.CommentText</i></p>
+                            <p>@comment.Datecreated.ToString("MM/dd/yyyy HH:mm:ss")</p>
+                        </div>
+                    }
+                }
+
+                <div class="card-header">
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <label asp-for="@obj.Comments" class="control-label"></label>
+                <textarea asp-for="@obj.Comments" class="form-control" id="exampleFormControlTextarea1" name="CommentText">  </textarea>
+                <span asp-validation-for="@obj.Comments" class="text-danger"></span>
+
+                <div class="card-footer">
+                    <button asp-action="Comment" asp-controller="Home" asp-route-Id="@obj.PostId" type="submit" class="btn btn-success">Comment</button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </form>
+    <br />
+
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+    .dropdown-menu button:hover {
+        background-color: red;
+        color: white;
+    }
+</style>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
