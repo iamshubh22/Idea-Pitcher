@@ -9,7 +9,7 @@
     <form method="post">
         
         @if(@obj.Drafted == true && User.Identity.Name==@obj.createdby){
-             <div class="card mb-3">
+             <div class="card mb-3 p-5">
               <center>
                         <u><h2 class="card-title">@obj.Title</h2></u>
             <img class="img-thumbnail" src="~/Ideas/Images/@obj.IdeaImage" alt="Card image cap" height="500" width="500">
@@ -24,7 +24,7 @@
                                     @*</button>*@
                                     @*<div class="dropdown-menu">*@
                                     <form method="post">
-                                        <button type="submit" class="dropdown-item" asp-controller="Home" asp-action="DeletePost" asp-route-id="@obj.PostId"><i class="bi-trash"> Delete</i></button>
+                                        <button type="submit" class="dropdown-item" style="color : red" asp-controller="Home" asp-action="DeletePost" asp-route-id="@obj.PostId"><i class="bi-trash"> Delete</i></button>
                                         
                                         <br>
                                     </form>
